@@ -1,3 +1,4 @@
+from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
 
@@ -8,4 +9,12 @@ def index(request):
 
 
 def goods(request):
-    return HttpResponse('Coming soon....')
+    return HttpResponse('Все товары')
+
+
+def categories(request, cat):
+    return HttpResponse(f'категория  {cat}')
+
+
+def pageNotFound(request, exception):
+    return HttpResponseNotFound('Страница не найдена')
