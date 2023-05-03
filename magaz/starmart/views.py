@@ -1,7 +1,7 @@
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
-
+from .models import *
 
 # Create your views here.
 
@@ -9,7 +9,9 @@ menu = ['Главная', 'Товары', 'О нас', 'Войти']
 
 
 def index(request):
-    return render(request, 'starmart/index.html', {'menu': menu, 'title': 'Главная страница'})
+    good = Goods.objects.all()
+    print(good,'ff')
+    return render(request, 'starmart/index.html', {'menu': menu, 'title': 'Главная страница', goods: good})
 
 
 def goods(request):

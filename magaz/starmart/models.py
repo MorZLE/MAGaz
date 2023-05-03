@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Goods(models.Model):
@@ -6,9 +7,20 @@ class Goods(models.Model):
     content = models.TextField(blank=True)
     photo = models.ImageField(upload_to='photos/%Y/%m/%d/')
     is_published = models.BooleanField(default=True)
-    #category = models.ForeignKey('Categories.category', on_delete=True)
+    Quantity = models.IntegerField(null=True)
+    category = models.ForeignKey('Categories', on_delete=models.PROTECT, null=True)
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('good', kwargs={'good': self.pk})
 
 
 class Categories(models.Model):
-    category = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, db_index=True)
+
+    def __str__(self):
+        return self.name
+
 
