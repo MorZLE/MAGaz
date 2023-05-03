@@ -4,8 +4,12 @@ from django.shortcuts import HttpResponse
 
 
 # Create your views here.
+
+menu = ['Главная', 'Товары', 'О нас', 'Войти']
+
+
 def index(request):
-    return HttpResponse('Главная')
+    return render(request, 'starmart/index.html', {'menu': menu, 'title': 'Главная страница'})
 
 
 def goods(request):
