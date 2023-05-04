@@ -4,13 +4,13 @@
 <h1>{{title}}</h1>
 <hr>
 <div class="card">
-          <img src='#' alt='test' style="width:40%">
+    {% for g in good %}
+          <img src='{{g.photo.url}}' alt='test' style="width:40%">
           <h1>{{g.title}}</h1>
       <p class="price">{{g.price}} руб</p>
       <p>{{g.content}}</p>
       <p><button>Купить</button></p>
+    {% endfor %}
     </div>
     <hr>
-
-
 {% endblock %}

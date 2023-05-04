@@ -1,144 +1,115 @@
-body {
+* {
   margin: 0;
-  font-family: Helvetica, sans-serif;
-  background-color: #f4f4f4;
+  padding: 0;
+  outline: none;
+  border: none;
 }
 
 a {
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+}
+
+body {
+  background-color: #ffffff;
+}
+
+.container {
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+.header {
+  background-color: rgba(243, 240, 240, 0.81);
+  /* padding: 1.5rem; */
+}
+
+.header__logo {
+  font-size: 1.5rem;
   color: #000;
 }
 
-/* header */
-
-.header {
-  background-color: #fff;
-  box-shadow: 1px 1px 4px 0 rgba(0,0,0,.1);
-  position: fixed;
-  width: 100%;
-  z-index: 3;
+.header__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.header ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  overflow: hidden;
-  background-color: #fff;
+.nav__list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.header li a {
-  display: block;
-  padding: 20px 20px;
-  border-right: 1px solid #f4f4f4;
-  text-decoration: none;
-}
-
-.header li a:hover,
-.header .menu-btn:hover {
-  background-color: #f4f4f4;
-}
-
-.header .logo {
-  display: block;
-  float: left;
-  font-size: 2em;
-  padding: 10px 20px;
-  text-decoration: none;
-}
-
-/* menu */
-
-.header .menu {
-  clear: both;
-  max-height: 0;
-  transition: max-height .2s ease-out;
-}
-
-/* menu icon */
-
-.header .menu-icon {
+.nav__item {
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
   cursor: pointer;
-  display: inline-block;
-  float: right;
-  padding: 28px 20px;
-  position: relative;
-  user-select: none;
+  border-left: 1px solid rgba(0, 0, 0, 0.068);
+  transition: background-color 0.3s ease;
 }
 
-.header .menu-icon .navicon {
-  background: #333;
-  display: block;
-  height: 2px;
-  position: relative;
-  transition: background .2s ease-out;
-  width: 18px;
+.nav__item:hover {
+  background-color: rgba(75, 67, 67, 0.068);
+  transition: background-color 0.3s ease;
 }
 
-.header .menu-icon .navicon:before,
-.header .menu-icon .navicon:after {
-  background: #333;
-  content: '';
+.nav__item:first-child:hover .nav__dropdown {
   display: block;
-  height: 100%;
+}
+
+.nav__item:first-child {
+  position: relative;
+  border-left: none;
+}
+
+.nav__link {
+  line-height: 145%;
+  color: #000;
+}
+
+.nav__dropdown {
   position: absolute;
-  transition: all .2s ease-out;
-  width: 100%;
-}
-
-.header .menu-icon .navicon:before {
-  top: 5px;
-}
-
-.header .menu-icon .navicon:after {
-  top: -5px;
-}
-
-/* menu btn */
-
-.header .menu-btn {
+  z-index: 5;
+  min-width: 80px;
+  text-align: center;
+  bottom: -8rem;
+  left: 0.25rem;
+  background-color: #333;
+  padding: 0.3rem;
   display: none;
+  animation: opacity 0.5s ease;
+  transition: transform 0.3s ease;
 }
 
-.header .menu-btn:checked ~ .menu {
-  max-height: 240px;
-}
-
-.header .menu-btn:checked ~ .menu-icon .navicon {
-  background: transparent;
-}
-
-.header .menu-btn:checked ~ .menu-icon .navicon:before {
-  transform: rotate(-45deg);
-}
-
-.header .menu-btn:checked ~ .menu-icon .navicon:after {
-  transform: rotate(45deg);
-}
-
-.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before,
-.header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
-  top: 0;
-}
-
-/* 48em = 768px */
-
-@media (min-width: 48em) {
-  .header li {
-    float: left;
+@keyframes opacity {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-  .header li a {
-    padding: 20px 30px;
-  }
-  .header .menu {
-    clear: none;
-    float: right;
-    max-height: none;
-  }
-  .header .menu-icon {
-    display: none;
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
+.nav__dropdown-item {
+  margin-bottom: 0.2rem;
+}
+.nav__dropdown-link {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.nav__dropdown-link:hover {
+  text-decoration: underline;
+}
+
+.nav__dropdown-item:last-child {
+  margin-bottom: 0;
+}
 
 /* карточка товара */
 .card {
@@ -170,13 +141,4 @@ a {
   opacity: 0.7;
 }
 
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
 
