@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link type="text/css" href="{% static 'starmart/css/styles.css' %}" rel="stylesheet"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+{% block mainmenu %}
+ <header class="header">
+    <div class="header__container container">
+      <a href="{% url 'home' %}" class="header_logo-wrap">
+        <span class="header__logo">MAGaz</span>
+      </a>
+      <nav class="header__nav nav">
+        <ul class="nav__list">
+          {% for m in menu %}
+          <li class="nav__item">
+            <a href="{% url m.url_name %}" class="nav__link">{{m.title}}</a>
+              {%if m.title == 'Товары'%}
+                <ul class="nav__dropdown">
+                     {% for c in cat %}
+                  <li class="nav__dropdown-item">
+                    <a href="{{ c.get_absolute_url }}" class="nav__dropdown-link">{{c.name}}</a>
+                  </li>
+                    {% endfor %}
+                </ul>
+              {%endif%}
+          </li>
+
+             {% endfor %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+{% endblock %}
+<hr>
+{% block content %}
+
+{% endblock %}
+
+</body>
+</html>
