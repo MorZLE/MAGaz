@@ -13,7 +13,7 @@ def index(request):
     cat = Categories.objects.all()
     context = {
         'menu': menu,
-        'title': 'Товары',
+        'title': 'Главная',
         'cat': cat
     }
     return render(request, 'starmart/index.html', context=context)
@@ -36,7 +36,7 @@ def show_good(request, good):
     cat = Categories.objects.all()
     context = {
         'menu': menu,
-        'title': 'Товары',
+        'title': '',
         'good': good,
         'cat': cat
     }
