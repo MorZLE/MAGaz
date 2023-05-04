@@ -2,13 +2,15 @@
 
 {% block content %}
 <h1>{{title}}</h1>
-
+<hr>
 {% for g in goods%}
-<li>
-    <h2>g.title</h2>
-    <p>g.content</p>
-    <p> <a href="#">Купить</a><p/>
+    <div class="card">
+          <img src='D:\python\MAGaz\magaz\media\photos\2023\05\03\photo_2023-03-29_19-17-34.jpg' alt='test' style="width:100%">
+          <h1>{{g.title}}</h1>
+      <p class="price">{{g.price}} руб</p>
+      <p>{{g.content}}</p>
+      <p><button>Купить</button></p>
+    </div>
     <hr>
-<li/>
-{%endfor%}
+{% endfor %}
 {% endblock %}

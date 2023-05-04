@@ -5,13 +5,12 @@ from .models import *
 
 # Create your views here.
 
-menu = ['Главная', 'Товары', 'О нас', 'Войти']
+menu = ['Товары', 'О нас', 'Корзина', 'Войти']
 
 
 def index(request):
     good = Goods.objects.all()
-    print(good,'ff')
-    return render(request, 'starmart/index.html', {'menu': menu, 'title': 'Главная страница', goods: good})
+    return render(request, 'starmart/index.html', {'menu': menu, 'title': 'Главная страница', 'goods': good})
 
 
 def goods(request):

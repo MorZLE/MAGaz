@@ -4,19 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <title>{{title}}</title>
-    <link type="text/css" href="{% static 'starmart/css/styles.css'%}" rel="stylesheet"/>
+    <link type="text/css" href="{% static 'starmart/css/styles.css' %}" rel="stylesheet"/>
 </head>
 <body>
 {% block mainmenu %}
-<ul>
-{% for m in menu%}
-    <li>{{m}}</li>
+<header class="header">
+  <a href="" class="logo">MAGaz</a>
+  <input class="menu-btn" type="checkbox" id="menu-btn" />
+  <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
+  <ul class="menu">
+    {% for m in menu %}
+        <li><a href="#">{{m}} </a></li>
     {% endfor %}
-</ul>
+  </ul>
+</header>
 
 {% endblock %}
-
+<hr>
 {% block content %}
+
 {% endblock %}
 
 </body>

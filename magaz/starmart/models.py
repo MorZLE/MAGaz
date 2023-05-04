@@ -9,6 +9,7 @@ class Goods(models.Model):
     is_published = models.BooleanField(default=True)
     Quantity = models.IntegerField(null=True)
     category = models.ForeignKey('Categories', on_delete=models.PROTECT, null=True)
+    price = models.FloatField(null=True)
 
     def __str__(self):
         return self.title
