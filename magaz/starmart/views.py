@@ -20,7 +20,7 @@ def index(request):
 
 
 def goods(request):
-    good = Goods.objects.all()
+    good = Goods.objects.filter(is_published=True)
     cat = Categories.objects.all()
     context = {
         'menu': menu,
@@ -32,11 +32,10 @@ def goods(request):
 
 
 def show_good(request, good):
-    good = Goods.objects.filter(pk=good)
+    good = Goods.objects.filter(pk=good, is_published=True)
     cat = Categories.objects.all()
     context = {
         'menu': menu,
-        'title': '',
         'good': good,
         'cat': cat
     }
@@ -44,7 +43,7 @@ def show_good(request, good):
 
 
 def show_category(request, cat):
-    good = Goods.objects.filter(category_id=cat)
+    good = Goods.objects.filter(category_id=cat, is_published=True)
     cat = Categories.objects.all()
     context = {
         'menu': menu,
