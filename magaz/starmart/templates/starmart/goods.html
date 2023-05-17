@@ -2,16 +2,22 @@
 
 {% block content %}
 
-<hr>
-{% for g in goods%}
-    <div class="card">
-          <img src='{{g.photo.url}}' alt='test' style="width:40%">
-          <h1>{{g.title}}</h1>
-      <p class="price">{{g.price}} руб</p>
-      <p>{{g.content|linebreaks|truncatewords:40}}</p>
-      <p><a href="{{g.get_absolute_url}}">Посмотреть</a> </p>
-      <p><button>Купить</button></p>
-    </div>
-    <hr>
-{% endfor %}
+<div class="card_container">
+    {% for g in goods%}
+        <div class="card">
+               <figure class="card__poster">
+                <img class="card-poster__image" src='{{g.photo.url}}' alt="poster">
+                         </figure>
+              <h1>{{g.title}}</h1>
+          <p class="price">{{g.price}} руб</p>
+          <div  class="card-databox__description">{{g.content|linebreaks|truncatewords:20}}</div >
+          <p><a href="{{g.get_absolute_url}}">Посмотреть</a> </p>
+          <p><button>Купить</button></p>
+        </div>
+
+    {% endfor %}
+</div>
+
 {% endblock %}
+
+</div>

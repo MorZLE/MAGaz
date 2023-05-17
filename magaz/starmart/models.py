@@ -3,13 +3,14 @@ from django.urls import reverse
 
 
 class Goods(models.Model):
-    title = models.CharField(max_length=100)
-    content = models.TextField(blank=True)
-    photo = models.ImageField(upload_to='photos/%Y/%m/%d/')
-    is_published = models.BooleanField(default=True)
-    Quantity = models.IntegerField(null=True)
-    category = models.ForeignKey('Categories', on_delete=models.PROTECT, null=True)
-    price = models.FloatField(null=True)
+    title = models.CharField(max_length=100, verbose_name='Название')
+    content = models.TextField(blank=True, verbose_name='Описание')
+    photo = models.ImageField(upload_to='photos/%Y/%m/%d/', verbose_name='Фото')
+    is_published = models.BooleanField(default=True, verbose_name='Публикация')
+    Quantity = models.IntegerField(null=True, verbose_name='Кол-во')
+    category = models.ForeignKey('Categories', on_delete=models.PROTECT, null=True, verbose_name='Категория')
+    price = models.FloatField(null=True, verbose_name='Цена')
+
 
     def __str__(self):
         return self.title
@@ -17,12 +18,22 @@ class Goods(models.Model):
     def get_absolute_url(self):
         return reverse('good', kwargs={'good': self.pk})
 
+    class Meta:
+        verbose_name = "Товары"
+        verbose_name_plural = 'Товары'
+        ordering = ['title', 'category']
+
 
 class Categories(models.Model):
-    name = models.CharField(max_length=100, db_index=True)
+    name = models.CharField(max_length=100, db_index=True, verbose_name='Категория')
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Категории"
+        verbose_name_plural = 'Категории'
+        ordering = ['name']
 
     def get_absolute_url(self):
         return reverse('cat', kwargs={'cat': self.pk})

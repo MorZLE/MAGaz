@@ -13,14 +13,14 @@ def index(request):
     cat = Categories.objects.all()
     context = {
         'menu': menu,
-        'title': 'Товары',
+        'title': 'Главная',
         'cat': cat
     }
     return render(request, 'starmart/index.html', context=context)
 
 
 def goods(request):
-    good = Goods.objects.all()
+    good = Goods.objects.filter(is_published=True)
     cat = Categories.objects.all()
     context = {
         'menu': menu,
@@ -31,12 +31,12 @@ def goods(request):
     return render(request, 'starmart/goods.html', context=context)
 
 
+
 def show_good(request, good):
-    good = Goods.objects.filter(pk=good)
+    good = Goods.objects.filter(pk=good, is_published=True)
     cat = Categories.objects.all()
     context = {
         'menu': menu,
-        'title': 'Товары',
         'good': good,
         'cat': cat
     }
@@ -44,7 +44,7 @@ def show_good(request, good):
 
 
 def show_category(request, cat):
-    good = Goods.objects.filter(category_id=cat)
+    good = Goods.objects.filter(category_id=cat, is_published=True)
     cat = Categories.objects.all()
     context = {
         'menu': menu,

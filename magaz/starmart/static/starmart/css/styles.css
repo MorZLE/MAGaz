@@ -115,14 +115,29 @@ body {
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   max-width: 300px;
+  min-height: 620px;
+  max-height: 620px;
   margin: auto;
   text-align: center;
   font-family: arial;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  justify-content: space-between;
+  padding: 20px;
 }
 
 .price {
   color: grey;
   font-size: 22px;
+}
+
+.card-poster__image {
+  max-width:230px;
+  max-height:300px;
+  width: 230px;
+  height: 300px;
+  object-fit: cover;
 }
 
 .card button {
@@ -135,10 +150,25 @@ body {
   cursor: pointer;
   width: 100%;
   font-size: 18px;
+  margin-top: 30px;
+  top: ;
 }
 
 .card button:hover {
   opacity: 0.7;
+}
+
+
+.card_container{
+  display: grid;
+  margin: 0 auto;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 310px));
+  position: relative;
+  justify-content: space-between;
+  max-width: 1200px;
+  min-height: 720px;
+  padding: 20px;
+  align-content: stretch;
 }
 
 
