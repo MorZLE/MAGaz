@@ -31,6 +31,7 @@ def goods(request):
     return render(request, 'starmart/goods.html', context=context)
 
 
+
 def show_good(request, good):
     good = Goods.objects.filter(pk=good, is_published=True)
     cat = Categories.objects.all()
