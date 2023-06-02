@@ -3,6 +3,9 @@
 {% block content %}
 
 <div class="card_container">
+    {%if goods|length == 0 %}
+    <h1>Скоро будут!</h1>
+    {%endif%}
     {% for g in goods%}
         <div class="card">
                <figure class="card__poster">

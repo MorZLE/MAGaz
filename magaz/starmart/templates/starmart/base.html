@@ -22,9 +22,11 @@
               {%if m.title == 'Товары'%}
                 <ul class="nav__dropdown">
                      {% for c in cat %}
+               {%if c.goods__count > 0%}
                   <li class="nav__dropdown-item">
                     <a href="{{ c.get_absolute_url }}" class="nav__dropdown-link">{{c.name}}</a>
                   </li>
+               {%endif%}
                     {% endfor %}
                 </ul>
               {%endif%}
