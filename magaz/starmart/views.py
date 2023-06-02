@@ -22,6 +22,7 @@ class ShopHome(DataMixin, ListView):
 
 
 class ShopGoods(DataMixin, ListView):
+    paginate_by = 1
     model = Goods
     context_object_name = 'goods'
     template_name = 'starmart/goods.html'
