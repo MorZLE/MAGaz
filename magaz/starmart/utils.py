@@ -8,6 +8,7 @@ menu = [{'title': 'Товары', 'url_name': 'goods'}, {'title': 'О нас', '
 
 
 class DataMixin:
+
     def get_user_context(self, **kwargs):
         context = kwargs
         cats = Categories.objects.annotate(Count('goods'))

@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView
-
+from django.views.generic import ListView, DetailView, CreateView
 
 from .models import *
 from .utils import *
@@ -22,7 +23,7 @@ class ShopHome(DataMixin, ListView):
 
 
 class ShopGoods(DataMixin, ListView):
-    paginate_by = 1
+    paginate_by = 6
     model = Goods
     context_object_name = 'goods'
     template_name = 'starmart/goods.html'
@@ -47,6 +48,7 @@ class ShowGood(DataMixin, DetailView):
 
 
 class ShowCategory(DataMixin, ListView):
+    paginate_by = 6
     model = Goods
     context_object_name = 'goods'
     template_name = 'starmart/goods.html'
@@ -65,7 +67,7 @@ class ShopAdmin(LoginRequiredMixin, DataMixin, ListView):
     context_object_name = 'goods'
     template_name = 'starmart/admin.html'
   #  raise_exception = True
-   # login_url = reverse_lazy('login')
+    login_url = reverse_lazy('login')
     login_url = '/admin'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -89,7 +91,6 @@ class ShopAbout(DataMixin, ListView):
         pass
 
 
-
 class ShopBasket(DataMixin, ListView):
     template_name = 'starmart/basket.html'
 
@@ -101,17 +102,27 @@ class ShopBasket(DataMixin, ListView):
     def get_queryset(self):
         pass
 
-class ShopLogin(DataMixin, ListView):
+
+class ShopLogin(DataMixin, LoginView):
     template_name = 'starmart/login.html'
+    form_class = AuthenticationForm
+
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title="Вход")
         return dict(list(context.items()) + list(c_def.items()))
 
-    def get_queryset(self):
-        pass
 
+class ShopRegister(DataMixin, CreateView):
+    form_class = UserCreationForm
+    template_name = 'starmart/register.html'
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Регистрация")
+        return dict(list(context.items()) + list(c_def.items()))
 
 
 def pageNotFound(request, exception):
