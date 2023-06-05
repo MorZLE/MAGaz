@@ -1,16 +1,14 @@
 {% extends 'starmart/base.html' %}
 
 {% block content %}
-<h1>{{title}}</h1>
 <hr>
 <div class="card">
-    {% for g in good %}
-          <img src='{{g.photo.url}}' alt='test' style="width:40%">
-          <h1>{{g.title}}</h1>
-      <p class="price">{{g.price}} руб</p>
-      <p>{{g.content}}</p>
-      <p><button>Купить</button></p>
-    {% endfor %}
+
+    <img src='{{good.photo.url}}' alt='test' style="width:40%">
+    <h1>{{good.title}}</h1>
+    <p class="price">{{good.price}} руб</p>
+    <p>{{good.content}}</p>
+    <p><button>Купить</button></p>
     </div>
     <hr>
 {% endblock %}
