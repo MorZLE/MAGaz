@@ -30,9 +30,17 @@
                     {% endfor %}
                 </ul>
               {%endif%}
-          </li>
+              {% endfor %}
 
-             {% endfor %}
+
+          </li>
+            <li class="nav__item">
+             {% if request.user.is_authenticated%}
+                <a  class="nav__link">{{user.username}}</a> | <a href="{% url 'logout' %}">Выйти</a>
+              {%else%}
+                 <a href="{% url 'login' %}" class="nav__link">Войти</a>
+              {%endif%}
+            </li>
         </ul>
       </nav>
     </div>

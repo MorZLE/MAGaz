@@ -1,7 +1,8 @@
+from django.contrib.auth import logout, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
@@ -102,6 +103,18 @@ class ShopBasket(DataMixin, ListView):
         pass
 
 
+class ProfileUser(DataMixin, ListView):
+    template_name = 'starmart/profile.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Профиль")
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def get_queryset(self):
+        pass
+
+
 class ShopLogin(DataMixin, LoginView):
     template_name = 'starmart/login.html'
     form_class = LoginUserForm
@@ -111,7 +124,6 @@ class ShopLogin(DataMixin, LoginView):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title="Вход")
         return dict(list(context.items()) + list(c_def.items()))
-
 
 
 class ShopRegister(DataMixin, CreateView):
@@ -124,6 +136,18 @@ class ShopRegister(DataMixin, CreateView):
         c_def = self.get_user_context(title="Регистрация")
         return dict(list(context.items()) + list(c_def.items()))
 
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
+
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('Страница не найдена')
+
+
