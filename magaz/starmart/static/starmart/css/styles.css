@@ -58,11 +58,11 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.nav__item:first-child:hover .nav__dropdown {
+.nav__item:hover .nav__dropdown {
   display: block;
 }
 
-.nav__item:first-child {
+.nav__item {
   position: relative;
   border-left: none;
 }
