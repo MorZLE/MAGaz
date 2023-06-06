@@ -1,12 +1,20 @@
 {% extends 'starmart/base.html' %}
 
 {% block content %}
-<h1>{{title}}</h1>
 
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit"> Регистрация </button>
+
+    <div class="login__block">
+        <h2 class="login-title">
+         Регистрация
+        </h2>
+            {% for f in form%}
+           <p> <label class="login-input" for="{{f.id_for_label}}">{{f.label}}:</label>{{ f }}</p>
+         <div class="form-error">{{f.errors}}</div>
+            {%endfor%}
+          <button class="login-btn" type="submit">Зарегистрироваться</button>
+          <a href="{% url 'login' %}" class="login-registrations">Войти если есть аккаунт!</a>
+     </div>
 </form>
-<a href="{% url 'login' %}"> Войти </a>
 {% endblock %}

@@ -1,5 +1,3 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseNotFound
@@ -7,6 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
+from .forms import RegisterUserForm, LoginUserForm
 from .models import *
 from .utils import *
 
@@ -105,8 +104,8 @@ class ShopBasket(DataMixin, ListView):
 
 class ShopLogin(DataMixin, LoginView):
     template_name = 'starmart/login.html'
-    form_class = AuthenticationForm
-
+    form_class = LoginUserForm
+    success_url = reverse_lazy('home')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -114,8 +113,9 @@ class ShopLogin(DataMixin, LoginView):
         return dict(list(context.items()) + list(c_def.items()))
 
 
+
 class ShopRegister(DataMixin, CreateView):
-    form_class = UserCreationForm
+    form_class = RegisterUserForm
     template_name = 'starmart/register.html'
     success_url = reverse_lazy('home')
 
