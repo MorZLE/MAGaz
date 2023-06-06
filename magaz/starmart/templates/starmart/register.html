@@ -7,15 +7,14 @@
 
     <div class="login__block">
         <h2 class="login-title">
-        Авторизация
+         Регистрация
         </h2>
-        <div class="form-error">{{ form.non_field_errors }}</div>
             {% for f in form%}
            <p> <label class="login-input" for="{{f.id_for_label}}">{{f.label}}:</label>{{ f }}</p>
          <div class="form-error">{{f.errors}}</div>
             {%endfor%}
-          <button class="login-btn" type="submit">Войти</button>
-          <a href="{% url 'register' %}" class="login-registrations">Регистрация</a>
-    </div>
+          <button class="login-btn" type="submit">Зарегистрироваться</button>
+          <a href="{% url 'login' %}" class="login-registrations">Войти если есть аккаунт!</a>
+     </div>
 </form>
 {% endblock %}

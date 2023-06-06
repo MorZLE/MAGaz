@@ -20,28 +20,10 @@
 
     {% endfor %}
 </div>
-<div class="paginator">
-    <ul>
-        {% for p in page_obj.paginator.page_range %}
-        <li>
-            <p><a href="?page={{ p }}" class="nav__dropdown-link" >{{p}}</a></p>
-        </li>
-        {%endfor%}
-    </ul>
-</div>
+
 {% endblock %}
 
 
-<div >
-    <ul>
-        {% for p in page_obj.paginator.page_range %}
-        <li>
-            <a href="?page={{ p }}">{{p}}</a>
-<!--            <li class="active"><a href="#"></a></li>-->
-        </li>
-        {%endfor%}
-    </ul>
-</div>
 
 
 </div>
