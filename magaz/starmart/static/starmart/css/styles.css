@@ -58,11 +58,11 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.nav__item:first-child:hover .nav__dropdown {
+.nav__item:hover .nav__dropdown {
   display: block;
 }
 
-.nav__item:first-child {
+.nav__item {
   position: relative;
   border-left: none;
 }
@@ -284,8 +284,6 @@ body {
     border: 2px solid #000;
 }
 
-
-
 .login-registrations {
     display: inline-block;
     font-family: 'Source Sans Pro', sans-serif;
@@ -300,8 +298,81 @@ body {
 
 }
 
-.login-registrations:hover {
-    background: rgba(255, 255, 255, 0.4);;
-    color: #000;
-    border: 2px solid #000;
+.basket {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-height: 620px;
+  width: 50%;
+  border-radius: 12px;
+  overflow: hidden;
+  justify-content: space-between;
+  padding: 20px;
+    position: relative;
 
+}
+
+.basket-poster__image {
+  max-width:230px;
+  max-height:300px;
+  width: 230px;
+  height: 300px;
+  object-fit: cover;
+}
+
+.basket button {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 20%;
+  font-size: 18px;
+  margin-top: 30px;
+    border-radius: 20px;
+}
+.basket input{
+    background-color: #dddddd;
+    width: 3em;
+    height: 2em;
+
+
+}
+
+.basket button:hover {
+  opacity: 0.7;
+}
+
+.basket .price{
+    text-align: center;
+
+}
+
+.basket h1{
+    text-align: center;
+    top: 30px;
+}
+
+.basket_all {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      width: 30%;
+      position: absolute;
+      border-radius: 40px;
+      padding: 20px;
+    left: 55%;
+    top: 10%;
+}
+
+.basket_all button {
+  border: none;
+  outline: 0;
+  padding: 12px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 20%;
+  font-size: 18px;
+  margin-top: 30px;
+  border-radius: 20px;
+}

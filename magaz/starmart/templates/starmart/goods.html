@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="card_container">
+
     {%if goods|length == 0 %}
     <h1>Скоро будут!</h1>
     {%endif%}
@@ -15,11 +15,11 @@
           <p class="price">{{g.price}} руб</p>
           <div  class="card-databox__description">{{g.content|linebreaks|truncatewords:20}}</div >
           <p><a href="{{g.get_absolute_url}}">Посмотреть</a> </p>
-          <p><button>Купить</button></p>
+          <a href="{% url 'basket_add' g.id %}"><button>Купить</button></a>
         </div>
 
     {% endfor %}
-</div>
+
 
 {% endblock %}
 

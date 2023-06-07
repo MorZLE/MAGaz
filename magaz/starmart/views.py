@@ -1,7 +1,8 @@
 from django.contrib.auth import logout, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
@@ -36,11 +37,13 @@ class ShopGoods(DataMixin, ListView):
     def get_queryset(self):
         return Goods.objects.filter(is_published=True)
 
+
 class ShowGood(DataMixin, DetailView):
     model = Goods
     template_name = 'starmart/good.html'
     pk_url_kwarg = 'good'
     context_object_name = 'good'
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Товары')
@@ -91,16 +94,39 @@ class ShopAbout(DataMixin, ListView):
         pass
 
 
-class ShopBasket(DataMixin, ListView):
+class ShopBasket(LoginRequiredMixin,DataMixin, ListView):
     template_name = 'starmart/basket.html'
-
+    model = Basket
+    context_object_name = 'basket'
+    login_url = reverse_lazy('login')
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title="Корзина")
         return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
-        pass
+        return Basket.objects.filter(user=self.request.user)
+
+
+
+def basket_add(request, product_id):
+    if request.user.is_authenticated:
+        product = Goods.objects.get(id=product_id)
+        baskets = Basket.objects.filter(user=request.user, product=product)
+
+        if not baskets.exists():
+            Basket.objects.create(user=request.user, product=product, quantity=1)
+        else:
+            basket = baskets.first()
+            basket.quantity += 1
+            basket.save()
+    return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
+
+def basket_remove(request, basket_id):
+    basket = Basket.objects.get(id=basket_id)
+    basket.delete()
+    return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
 class ProfileUser(DataMixin, ListView):

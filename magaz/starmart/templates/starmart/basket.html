@@ -1,6 +1,29 @@
 {% extends 'starmart/base.html' %}
 
 {% block content %}
-<h1>{{title}}</h1>
-<hr>
+
+{% if basket%}
+    {% for b in basket%}
+        <div class="basket">
+              <img src='{{b.product.photo.url}}' alt='test' style="width:10%">
+              <h1>{{b.product.title}}</h1>
+          <p class="price">
+            <input name="basketID" type="number" class="#" value="{{b.quantity}}" min="0"> кол-во
+          </p>
+          <p class="price">{{b.product.price}} руб</p>
+          <p class="price">Всего {{ b.sum }} руб</p>
+        <a href="{% url 'basket_remove' b.id %}"><button>Удалить</button></a>
+        </div>
+        <hr>
+    {% endfor %}
+{% else %}
+    <h2>Корзина пуста</h2>
+{%endif%}
+
+<div class="basket_all">
+
+          <p class="price">Всего {{basket.total_sum}} руб | {{basket.total_qu}} шт
+        <a href="#"><button>Оплатить</button></a>
+        </div>
+
 {% endblock %}
