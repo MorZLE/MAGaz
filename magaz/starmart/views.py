@@ -1,4 +1,5 @@
 from django.contrib.auth import logout, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseNotFound, HttpResponseRedirect
@@ -93,11 +94,11 @@ class ShopAbout(DataMixin, ListView):
         pass
 
 
-class ShopBasket(DataMixin, ListView):
+class ShopBasket(LoginRequiredMixin,DataMixin, ListView):
     template_name = 'starmart/basket.html'
     model = Basket
     context_object_name = 'basket'
-
+    login_url = reverse_lazy('login')
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title="Корзина")
@@ -107,17 +108,18 @@ class ShopBasket(DataMixin, ListView):
         return Basket.objects.filter(user=self.request.user)
 
 
+
 def basket_add(request, product_id):
-    product = Goods.objects.get(id=product_id)
-    baskets = Basket.objects.filter(user=request.user, product=product)
+    if request.user.is_authenticated:
+        product = Goods.objects.get(id=product_id)
+        baskets = Basket.objects.filter(user=request.user, product=product)
 
-    if not baskets.exists():
-        Basket.objects.create(user=request.user, product=product, quantity=1)
-    else:
-        basket = baskets.first()
-        basket.quantity += 1
-        basket.save()
-
+        if not baskets.exists():
+            Basket.objects.create(user=request.user, product=product, quantity=1)
+        else:
+            basket = baskets.first()
+            basket.quantity += 1
+            basket.save()
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
@@ -164,9 +166,6 @@ class ShopRegister(DataMixin, CreateView):
         user = form.save()
         login(self.request, user)
         return redirect('home')
-
-
-
 
 
 def logout_user(request):
