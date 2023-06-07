@@ -14,6 +14,7 @@ urlpatterns = [
     path('good/<int:good>/', ShowGood.as_view(), name='good'),
     path('cat/<int:cat>', ShowCategory.as_view(), name='cat'),
     path('logout/', logout_user, name='logout'),
-    path('accounts/profile/', ProfileUser.as_view(), name='profile')
+    path('accounts/profile/', ProfileUser.as_view(), name='profile'),
+    path('baskets/add/<int:product_id>/', basket_add ,name='basket_add')
 
 ]

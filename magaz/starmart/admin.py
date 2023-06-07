@@ -21,6 +21,13 @@ class CategoriesAdmin(admin.ModelAdmin):
     search_fields = ('id', 'name')
 
 
+class BasketAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product', 'user', 'quantity', 'created_timestamp')
+    list_display_links = ('id', 'product', 'user', 'quantity', 'created_timestamp')
+    search_fields = ('id', 'product', 'user', 'quantity', 'created_timestamp')
+
+
 admin.site.register(Goods, GoodsAdmin)
 admin.site.register(Categories, CategoriesAdmin)
+admin.site.register(Basket, BasketAdmin)
 

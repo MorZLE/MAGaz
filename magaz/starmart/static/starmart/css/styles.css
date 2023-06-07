@@ -300,8 +300,16 @@ body {
 
 }
 
-.login-registrations:hover {
-    background: rgba(255, 255, 255, 0.4);;
-    color: #000;
-    border: 2px solid #000;
+.basket {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-height: 620px;
+  margin: auto;
+  text-align: center;
+  width: 50%;
+  border-radius: 12px;
+  overflow: hidden;
+  justify-content: space-between;
+  padding: 20px;
+}
+
 

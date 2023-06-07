@@ -2,5 +2,28 @@
 
 {% block content %}
 <h1>{{title}}</h1>
+
+ <div class="basket">
+          <img src='#' alt='test' style="width:40%">
+          <h1>Что то <p class="price">12 руб</p> </h1>
+
+    </div>
+    <hr>
 <hr>
+{% if basket%}
+    {% for b in basket%}
+        <div class="basket">
+              <img src='{{b.product.photo.url}}' alt='test' style="width:10%">
+              <h1>{{b.product.title}}</h1>
+          <p class="price">
+            <input name="basketID" type="number" class="#" value="{{b.quantity}}" min="0"> кол-во
+          </p>
+          <p class="price">{{b.product.price}} руб</p>
+        </div>
+        <hr>
+    {% endfor %}
+{% else %}
+    <h2>Корзина пуста</h2>
+{%endif%}
+
 {% endblock %}
