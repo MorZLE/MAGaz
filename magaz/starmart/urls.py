@@ -16,6 +16,7 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
     path('accounts/profile/', ProfileUser.as_view(), name='profile'),
     path('baskets/add/<int:product_id>/', basket_add, name='basket_add'),
-    path('baskets/remove/<int:basket_id>/', basket_remove, name='basket_remove')
+    path('baskets/remove/<int:basket_id>/', basket_remove, name='basket_remove'),
+    path('baskets/qu/<int:basket_id>&<int:value>/', basket_qu, name='basket_qu')
 
 ]

@@ -8,7 +8,7 @@
     <h1>{{good.title}}</h1>
     <p class="price">{{good.price}} руб</p>
     <p>{{good.content}}</p>
-    <p><button>Купить</button></p>
+    <a href="{% url 'basket_add' good.id %}"><button>Купить</button></a>
     </div>
     <hr>
 {% endblock %}

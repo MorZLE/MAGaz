@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
-from .forms import RegisterUserForm, LoginUserForm
+from .forms import RegisterUserForm, LoginUserForm, QuantityBasketForm
 from .models import *
 from .utils import *
 
@@ -94,32 +94,46 @@ class ShopAbout(DataMixin, ListView):
         pass
 
 
-class ShopBasket(LoginRequiredMixin,DataMixin, ListView):
+class ShopBasket(DataMixin, ListView):
     template_name = 'starmart/basket.html'
     model = Basket
     context_object_name = 'basket'
     login_url = reverse_lazy('login')
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title="Корзина")
         return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
-        return Basket.objects.filter(user=self.request.user)
+        if self.request.user.is_authenticated:
+            user = self.request.user
+        else:
+            user = self.request.session.session_key
+        return Basket.objects.filter(user=user)
 
+
+def basket_qu(request, product_id, value):
+    basket = Basket.objects.filter(id=product_id).update(quantity=value)
+    basket.save()
+    return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
 def basket_add(request, product_id):
     if request.user.is_authenticated:
-        product = Goods.objects.get(id=product_id)
-        baskets = Basket.objects.filter(user=request.user, product=product)
+       user = request.user
+    else:
+       user = request.session.session_key
 
-        if not baskets.exists():
-            Basket.objects.create(user=request.user, product=product, quantity=1)
-        else:
-            basket = baskets.first()
-            basket.quantity += 1
-            basket.save()
+    product = Goods.objects.get(id=product_id)
+    baskets = Basket.objects.filter(user=user, product=product)
+
+    if not baskets.exists():
+        Basket.objects.create(user=user, product=product, quantity=1)
+    else:
+        basket = baskets.first()
+        basket.quantity += 1
+        basket.save()
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 

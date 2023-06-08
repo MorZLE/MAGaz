@@ -46,8 +46,10 @@ class BasketQuerySet(models.QuerySet):
 
     def total_qu(self):
         return sum(basket.quantity for basket in self)
+
+
 class Basket(models.Model):
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True)
     product = models.ForeignKey(to=Goods, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=0)
     created_timestamp = models.DateTimeField(auto_now_add=True)
