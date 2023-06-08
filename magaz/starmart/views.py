@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
-from .forms import RegisterUserForm, LoginUserForm
+from .forms import RegisterUserForm, LoginUserForm, QuantityBasketForm
 from .models import *
 from .utils import *
 
@@ -94,11 +94,12 @@ class ShopAbout(DataMixin, ListView):
         pass
 
 
-class ShopBasket(LoginRequiredMixin,DataMixin, ListView):
+class ShopBasket(LoginRequiredMixin, DataMixin, ListView):
     template_name = 'starmart/basket.html'
     model = Basket
     context_object_name = 'basket'
     login_url = reverse_lazy('login')
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title="Корзина")
@@ -107,6 +108,11 @@ class ShopBasket(LoginRequiredMixin,DataMixin, ListView):
     def get_queryset(self):
         return Basket.objects.filter(user=self.request.user)
 
+
+def basket_qu(request, product_id, value):
+    basket = Basket.objects.filter(id=product_id).update(quantity=value)
+    basket.save()
+    return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
 def basket_add(request, product_id):
