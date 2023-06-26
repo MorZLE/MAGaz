@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
-from .forms import RegisterUserForm, LoginUserForm, QuantityBasketForm
+from .forms import RegisterUserForm, LoginUserForm, OrderData
 from .logic.logic_basket import LogicBasket
 from .models import *
 from .utils import *
@@ -22,7 +22,7 @@ class ShopHome(DataMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Главная')
-        return dict(list(context.items())+list(c_def.items()))
+        return dict(list(context.items()) + list(c_def.items()))
 
 
 class ShopGoods(DataMixin, ListView):
@@ -61,7 +61,7 @@ class ShowCategory(DataMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Товары')
-        return dict(list(context.items())+list(c_def.items()))
+        return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
         return LogicGood.get_cat_goods(self.kwargs)
@@ -71,9 +71,9 @@ class ShopAdmin(LoginRequiredMixin, DataMixin, ListView):
     model = Goods
     context_object_name = 'goods'
     template_name = 'starmart/admin.html'
-  #  raise_exception = True
+    #  raise_exception = True
     login_url = reverse_lazy('login')
-    login_url = '/admin'
+    #   login_url = '/admin'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -96,11 +96,12 @@ class ShopAbout(DataMixin, ListView):
         pass
 
 
-class ShopBasket(DataMixin, ListView):
+class ShopBasket(DataMixin, CreateView):
     template_name = 'starmart/basket.html'
     model = Basket
     context_object_name = 'basket'
     login_url = reverse_lazy('login')
+    form_class = OrderData
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -172,5 +173,3 @@ def logout_user(request):
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('Страница не найдена')
-
-

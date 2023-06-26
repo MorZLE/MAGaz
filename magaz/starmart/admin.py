@@ -16,7 +16,6 @@ class GoodsAdmin(admin.ModelAdmin):
 
 class CategoriesAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
-
     list_display_links = ('id', 'name')
     search_fields = ('id', 'name')
 
@@ -27,7 +26,20 @@ class BasketAdmin(admin.ModelAdmin):
     search_fields = ('id', 'product', 'user', 'quantity', 'created_timestamp')
 
 
-admin.site.register(Goods, GoodsAdmin)
-admin.site.register(Categories, CategoriesAdmin)
-admin.site.register(Basket, BasketAdmin)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ( 'recipient', 'address', 'number', 'email')
+    list_display_links = ( 'recipient', 'address', 'number', 'email')
+    search_fields = ( 'recipient', 'address', 'number', 'email')
 
+
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ('id', 'order', 'product', 'price', 'quantity')
+    list_display_links = ('id', 'order', 'product', 'price', 'quantity')
+    search_fields = ('id', 'order', 'product', 'price', 'quantity')
+
+
+admin.site.register(Goods, GoodsAdmin)
+admin.site.register(Basket, BasketAdmin)
+admin.site.register(Categories, CategoriesAdmin)
+admin.site.register(Order, OrderAdmin)
+admin.site.register(OrderItem, OrderItemAdmin)

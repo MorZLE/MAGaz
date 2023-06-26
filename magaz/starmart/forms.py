@@ -27,10 +27,7 @@ class LoginUserForm(AuthenticationForm):
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
 
 
-class QuantityBasketForm(forms.ModelForm):
+class OrderData(forms.ModelForm):
     class Meta:
-        model = Basket
-        fields = ['quantity']
-        widgets = {
-            'quantity': forms.NumberInput(attrs={'class': 'form-input'}),
-        }
+        model = OrderItem
+        fields = "__all__"
