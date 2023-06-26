@@ -8,10 +8,10 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
 from .forms import RegisterUserForm, LoginUserForm, QuantityBasketForm
-from .logic.logic_basket import *
+from .logic.logic_basket import LogicBasket
 from .models import *
 from .utils import *
-from .logic.logic_good import *
+from .logic.logic_good import LogicGood
 
 
 class ShopHome(DataMixin, ListView):
@@ -37,7 +37,7 @@ class ShopGoods(DataMixin, ListView):
         return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
-        return get_all_goods()
+        return LogicGood.get_all_goods()
 
 
 class ShowGood(DataMixin, DetailView):
@@ -64,7 +64,7 @@ class ShowCategory(DataMixin, ListView):
         return dict(list(context.items())+list(c_def.items()))
 
     def get_queryset(self):
-        return get_cat_gooos
+        return LogicGood.get_cat_goods(self.kwargs)
 
 
 class ShopAdmin(LoginRequiredMixin, DataMixin, ListView):
@@ -108,21 +108,21 @@ class ShopBasket(DataMixin, ListView):
         return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
-        return show_shop_basket(self.request)
+        return LogicGood.show_shop_basket(self.request)
 
 
 def basket_qu(request, product_id, value):
-    add_good_basket(product_id, value)
+    LogicBasket.update_good_basket(product_id, value)
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
 def basket_add(request, product_id):
-    add_basket(request, product_id)
+    LogicBasket.add_basket(request, product_id)
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
 def basket_remove(request, basket_id):
-    delete_good_basket(basket_id)
+    LogicBasket.delete_good_basket(basket_id)
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
