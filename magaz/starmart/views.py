@@ -8,8 +8,10 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
 from .forms import RegisterUserForm, LoginUserForm, QuantityBasketForm
+from .logic.logic_basket import *
 from .models import *
 from .utils import *
+from .logic.logic_good import *
 
 
 class ShopHome(DataMixin, ListView):
@@ -35,7 +37,7 @@ class ShopGoods(DataMixin, ListView):
         return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
-        return Goods.objects.filter(is_published=True)
+        return get_all_goods()
 
 
 class ShowGood(DataMixin, DetailView):
@@ -62,7 +64,7 @@ class ShowCategory(DataMixin, ListView):
         return dict(list(context.items())+list(c_def.items()))
 
     def get_queryset(self):
-        return Goods.objects.filter(category_id=self.kwargs['cat'], is_published=True)
+        return get_cat_gooos
 
 
 class ShopAdmin(LoginRequiredMixin, DataMixin, ListView):
@@ -106,40 +108,21 @@ class ShopBasket(DataMixin, ListView):
         return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            user = self.request.user
-        else:
-            user = self.request.session.session_key
-        return Basket.objects.filter(user=user)
+        return show_shop_basket(self.request)
 
 
 def basket_qu(request, product_id, value):
-    basket = Basket.objects.filter(id=product_id).update(quantity=value)
-    basket.save()
+    add_good_basket(product_id, value)
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
 def basket_add(request, product_id):
-    if request.user.is_authenticated:
-       user = request.user
-    else:
-       user = request.session.session_key
-
-    product = Goods.objects.get(id=product_id)
-    baskets = Basket.objects.filter(user=user, product=product)
-
-    if not baskets.exists():
-        Basket.objects.create(user=user, product=product, quantity=1)
-    else:
-        basket = baskets.first()
-        basket.quantity += 1
-        basket.save()
+    add_basket(request, product_id)
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
 def basket_remove(request, basket_id):
-    basket = Basket.objects.get(id=basket_id)
-    basket.delete()
+    delete_good_basket(basket_id)
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 

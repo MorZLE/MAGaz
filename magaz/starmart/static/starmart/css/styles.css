@@ -15,7 +15,7 @@ ul {
 }
 
 body {
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.96);
 }
 
 .container {
@@ -46,6 +46,8 @@ body {
 }
 
 .nav__item {
+  text-align: center;
+  width: 100px;
   padding: 0.5rem 1rem;
   font-size: 1.25rem;
   cursor: pointer;
@@ -139,6 +141,7 @@ body {
   width: 230px;
   height: 300px;
   object-fit: cover;
+  border-radius: 10px;
 }
 
 .card button {
@@ -152,13 +155,18 @@ body {
   width: 100%;
   font-size: 18px;
   margin-top: 30px;
-  top: ;
+  border-radius: 20px;
+
 }
 
 .card button:hover {
   opacity: 0.7;
 }
-
+.card-databox__description{
+    width: 300px;
+    height: 150px;
+    
+}
 
 .card_container{
   display: grid;
@@ -297,6 +305,7 @@ body {
     padding: 15px 30px;
 
 }
+
 
 .basket {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);

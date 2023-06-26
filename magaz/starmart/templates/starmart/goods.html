@@ -11,7 +11,7 @@
                <figure class="card__poster">
                 <img class="card-poster__image" src='{{g.photo.url}}' alt="poster">
                          </figure>
-              <h1>{{g.title}}</h1>
+              <h3>{{g.title|linebreaks|truncatewords:2}}</h3>
           <p class="price">{{g.price}} руб</p>
           <div  class="card-databox__description">{{g.content|linebreaks|truncatewords:20}}</div >
           <p><a href="{{g.get_absolute_url}}">Посмотреть</a> </p>
