@@ -24,9 +24,6 @@
 
               <p class="price">Всего {{basket.total_sum}} руб | {{basket.total_qu}} шт
 
-            </div>
-
-    <div>
         {% csrf_token %}
         <div class="form-error">{{ form.non_field_errors }}</div>
             {% for f in form%}

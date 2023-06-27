@@ -96,8 +96,9 @@ class ShopAbout(DataMixin, ListView):
         pass
 
 
-class ShopBasket(DataMixin, CreateView):
+class ShopBasket(DataMixin, CreateView, ListView):
     template_name = 'starmart/basket.html'
+    success_url = reverse_lazy('profile')
     model = Basket
     context_object_name = 'basket'
     login_url = reverse_lazy('login')
@@ -110,6 +111,10 @@ class ShopBasket(DataMixin, CreateView):
 
     def get_queryset(self):
         return LogicGood.show_shop_basket(self.request)
+
+    def form_valid(self, form):
+        LogicBasket.bay_goods_basket(self.request, form.cleaned_data)
+        return super().form_valid(form)
 
 
 def basket_qu(request, product_id, value):

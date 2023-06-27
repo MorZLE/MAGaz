@@ -31,3 +31,4 @@ class OrderData(forms.ModelForm):
     class Meta:
         model = RecipientData
         fields = "__all__"
+
