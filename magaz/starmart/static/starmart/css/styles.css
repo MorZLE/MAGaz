@@ -220,7 +220,10 @@ body {
 .form-input {
     width: 400px;
     font-size: 20px;
-    background-color: rgba(243, 240, 240, 0.81);;
+    background-color: rgba(169, 169, 169, 0.81);
+    border-radius: 10px;
+    padding:5px;
+
 }
 
 .form-label {
@@ -341,10 +344,9 @@ body {
     border-radius: 20px;
 }
 .basket input{
-    background-color: #dddddd;
+    background-color: #acacac;
     width: 3em;
     height: 2em;
-
 
 }
 
@@ -363,13 +365,15 @@ body {
 }
 
 .basket_all {
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-      width: 30%;
-      position: absolute;
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+   width: 30%;
+   position: absolute;
       border-radius: 40px;
       padding: 20px;
     left: 55%;
     top: 10%;
+    background-color: #ffffff;
+
 }
 
 .basket_all button {
@@ -385,3 +389,15 @@ body {
   margin-top: 30px;
   border-radius: 20px;
 }
+.basket-input {
+    width: 400px;
+    font-size: 20px;
+    background-color: rgba(169, 169, 169, 0.81);
+    border-radius: 10px;
+    padding:5px;
+
+}
+}
+
+
+

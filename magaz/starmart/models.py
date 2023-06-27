@@ -104,14 +104,12 @@ class Order(models.Model):
     paid = models.BooleanField(default=False, verbose_name='Оплата')
     status = models.ForeignKey(StatusOrder, on_delete=models.CASCADE, verbose_name='Статус заказа', default=1)
 
-
-
     class Meta:
         verbose_name = "Заказ"
         verbose_name_plural = 'Заказ'
         ordering = ['RecipientData']
 
-
+    
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE, verbose_name='Номер заказа')
     product = models.ForeignKey(Goods, related_name='order_items', on_delete=models.CASCADE, verbose_name='Товар')
@@ -123,5 +121,4 @@ class OrderItem(models.Model):
         verbose_name_plural = 'Товары заказа'
         ordering = ['order']
 
-    def __str__(self):
-        return self.pk
+

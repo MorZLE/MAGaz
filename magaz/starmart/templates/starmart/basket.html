@@ -16,14 +16,9 @@
         </div>
         <hr>
     {% endfor %}
-{% else %}
-    <h2>Корзина пуста</h2>
-{%endif%}
 <form method="post">
     <div class="basket_all">
-
               <p class="price">Всего {{basket.total_sum}} руб | {{basket.total_qu}} шт
-
         {% csrf_token %}
         <div class="form-error">{{ form.non_field_errors }}</div>
             {% for f in form%}
@@ -33,4 +28,8 @@
         <a><button  type="submit">Оплатить</button></a>
             </div>
 </form>
+{% else %}
+    <h2>Корзина пуста</h2>
+{%endif%}
+
 {% endblock %}

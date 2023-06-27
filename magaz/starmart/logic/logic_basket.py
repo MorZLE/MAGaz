@@ -34,6 +34,7 @@ class LogicBasket:
         order = Order.objects.create(RecipientData=RecipientData.objects.create(**form), paid=False)
         for p in Basket.objects.filter(user=LogicBasket.user_authenticated(request)):
             OrderItem.objects.create(order=order, product=p.product, price=p.sum(), quantity=p.quantity)
+        LogicBasket.delete_user_basket(request)
 
     @staticmethod
     def user_authenticated(request):
@@ -42,3 +43,8 @@ class LogicBasket:
         else:
             user = request.session.session_key
         return user
+
+    @staticmethod
+    def delete_user_basket(request):
+        basket = Basket.objects.filter(user=LogicBasket.user_authenticated(request))
+        basket.delete()

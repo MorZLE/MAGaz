@@ -30,5 +30,12 @@ class LoginUserForm(AuthenticationForm):
 class OrderData(forms.ModelForm):
     class Meta:
         model = RecipientData
-        fields = "__all__"
+        fields = ('recipient', 'address', 'number', 'email')
+        widgets = {
+            'recipient': forms.TextInput(attrs={'class': 'basket-input'}),
+            'address': forms.TextInput(attrs={'class': 'basket-input'}),
+            'number': forms.TextInput(attrs={'class': 'basket-input'}),
+            'email': forms.TextInput(attrs={'class': 'basket-input'}),
+        }
+
 
