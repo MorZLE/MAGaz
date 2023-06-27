@@ -70,8 +70,7 @@ class Basket(models.Model):
         return self.product.price * self.quantity
 
 
-
-class Order(models.Model):
+class RecipientData(models.Model):
     """Данные получателя"""
     recipient = models.CharField(max_length=100, verbose_name='ФИО получателя')
     address = models.TextField(max_length=200, verbose_name='Адрес')
@@ -79,7 +78,7 @@ class Order(models.Model):
     email = models.CharField(max_length=50, verbose_name='Почта')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    paid = models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.recipient
@@ -90,19 +89,36 @@ class Order(models.Model):
         ordering = ['recipient']
 
 
+class StatusOrder(models.Model):
+    status = models.CharField(max_length=100, db_index=True, default='1')
+
+    class Meta:
+        verbose_name = "Статус"
+        verbose_name_plural = 'Статус'
+        ordering = ['status']
+
+
+class Order(models.Model):
+    RecipientData = models.ForeignKey(RecipientData, related_name='RecipientData', on_delete=models.CASCADE)
+    paid = models.BooleanField(default=False)
+    status = models.ForeignKey(StatusOrder, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Заказ"
+        verbose_name_plural = 'Заказ'
+        ordering = ['RecipientData']
+
+
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE, )
-    product = models.ForeignKey(Basket, related_name='order_items', on_delete=models.CASCADE,)
+    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
+    product = models.ForeignKey(Goods, related_name='order_items', on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(default=1)
 
     class Meta:
-        verbose_name = "Данные заказа"
-        verbose_name_plural = 'Данные заказа'
+        verbose_name = "Товары заказа"
+        verbose_name_plural = 'Товары заказа'
         ordering = ['order']
 
     def __str__(self):
-        return '{}'.format(self.id)
-
-
-
+        return '{}'.format(self.pk)

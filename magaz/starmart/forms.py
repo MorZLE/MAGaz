@@ -29,5 +29,5 @@ class LoginUserForm(AuthenticationForm):
 
 class OrderData(forms.ModelForm):
     class Meta:
-        model = OrderItem
+        model = RecipientData
         fields = "__all__"
