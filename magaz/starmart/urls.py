@@ -11,6 +11,7 @@ urlpatterns = [
     path('login/', ShopLogin.as_view(), name='login'),
     path('register/', ShopRegister.as_view(), name='register'),
     path('adminka/', ShopAdmin.as_view(), name='admin'),
+   # path('adminka/order', ShopAdminOrder.as_view(), name='AdminOrder'),
     path('good/<int:good>/', ShowGood.as_view(), name='good'),
     path('cat/<int:cat>', ShowCategory.as_view(), name='cat'),
     path('logout/', logout_user, name='logout'),

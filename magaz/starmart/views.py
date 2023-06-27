@@ -114,7 +114,7 @@ class ShopBasket(DataMixin, CreateView, ListView):
 
     def form_valid(self, form):
         LogicBasket.bay_goods_basket(self.request, form.cleaned_data)
-        return super().form_valid(form)
+        return HttpResponseRedirect(self.request.META["HTTP_REFERER"])
 
 
 def basket_qu(request, product_id, value):
