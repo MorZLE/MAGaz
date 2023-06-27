@@ -52,10 +52,10 @@ class BasketQuerySet(models.QuerySet):
 
 class Basket(models.Model):
     """Корзина"""
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True)
-    product = models.ForeignKey(to=Goods, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=0)
-    created_timestamp = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True, verbose_name='Пользователь')
+    product = models.ForeignKey(to=Goods, on_delete=models.CASCADE, verbose_name='Товар')
+    quantity = models.PositiveIntegerField(default=0, verbose_name='Кол-во')
+    created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Добавлен')
     objects = BasketQuerySet.as_manager()
 
     class Meta:
@@ -90,7 +90,10 @@ class RecipientData(models.Model):
 
 
 class StatusOrder(models.Model):
-    status = models.CharField(max_length=100, db_index=True, default='1')
+    status = models.CharField(max_length=100, db_index=True, default='1', verbose_name='Статус заказа',)
+
+    def __str__(self):
+        return self.status
 
     class Meta:
         verbose_name = "Статус"
@@ -99,9 +102,10 @@ class StatusOrder(models.Model):
 
 
 class Order(models.Model):
-    RecipientData = models.ForeignKey(RecipientData, related_name='RecipientData', on_delete=models.CASCADE)
-    paid = models.BooleanField(default=False)
-    status = models.ForeignKey(StatusOrder, on_delete=models.CASCADE)
+    RecipientData = models.ForeignKey(RecipientData, related_name='RecipientData', on_delete=models.CASCADE,
+                                      verbose_name='Данные получателя')
+    paid = models.BooleanField(default=False, verbose_name='Оплата')
+    status = models.ForeignKey(StatusOrder, on_delete=models.CASCADE, verbose_name='Статус заказа', default=1)
 
     class Meta:
         verbose_name = "Заказ"
@@ -110,10 +114,10 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
-    product = models.ForeignKey(Goods, related_name='order_items', on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    quantity = models.PositiveIntegerField(default=1)
+    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE, verbose_name='Данные заказа')
+    product = models.ForeignKey(Goods, related_name='order_items', on_delete=models.CASCADE, verbose_name='Товар')
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
+    quantity = models.PositiveIntegerField(default=1, verbose_name='Количество')
 
     class Meta:
         verbose_name = "Товары заказа"
