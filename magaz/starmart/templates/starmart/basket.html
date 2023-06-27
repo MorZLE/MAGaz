@@ -16,14 +16,20 @@
         </div>
         <hr>
     {% endfor %}
+<form method="post">
+    <div class="basket_all">
+              <p class="price">Всего {{basket.total_sum}} руб | {{basket.total_qu}} шт
+        {% csrf_token %}
+        <div class="form-error">{{ form.non_field_errors }}</div>
+            {% for f in form%}
+           <p> <label class="login-input" for="{{f.id_for_label}}">{{f.label}}:</label>{{ f }}</p>
+         <div class="form-error">{{f.errors}}</div>
+            {%endfor%}
+        <a><button  type="submit">Оплатить</button></a>
+            </div>
+</form>
 {% else %}
     <h2>Корзина пуста</h2>
 {%endif%}
-
-<div class="basket_all">
-
-          <p class="price">Всего {{basket.total_sum}} руб | {{basket.total_qu}} шт
-        <a href="#"><button>Оплатить</button></a>
-        </div>
 
 {% endblock %}

@@ -7,9 +7,11 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
-from .forms import RegisterUserForm, LoginUserForm, QuantityBasketForm
+from .forms import RegisterUserForm, LoginUserForm, OrderData
+from .logic.logic_basket import LogicBasket
 from .models import *
 from .utils import *
+from .logic.logic_good import LogicGood
 
 
 class ShopHome(DataMixin, ListView):
@@ -20,7 +22,7 @@ class ShopHome(DataMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Главная')
-        return dict(list(context.items())+list(c_def.items()))
+        return dict(list(context.items()) + list(c_def.items()))
 
 
 class ShopGoods(DataMixin, ListView):
@@ -35,7 +37,7 @@ class ShopGoods(DataMixin, ListView):
         return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
-        return Goods.objects.filter(is_published=True)
+        return LogicGood.get_all_goods()
 
 
 class ShowGood(DataMixin, DetailView):
@@ -59,19 +61,19 @@ class ShowCategory(DataMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Товары')
-        return dict(list(context.items())+list(c_def.items()))
+        return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
-        return Goods.objects.filter(category_id=self.kwargs['cat'], is_published=True)
+        return LogicGood.get_cat_goods(self.kwargs)
 
 
 class ShopAdmin(LoginRequiredMixin, DataMixin, ListView):
     model = Goods
     context_object_name = 'goods'
     template_name = 'starmart/admin.html'
-  #  raise_exception = True
+    #  raise_exception = True
     login_url = reverse_lazy('login')
-    login_url = '/admin'
+    #   login_url = '/admin'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -94,11 +96,13 @@ class ShopAbout(DataMixin, ListView):
         pass
 
 
-class ShopBasket(DataMixin, ListView):
+class ShopBasket(DataMixin, CreateView, ListView):
     template_name = 'starmart/basket.html'
+    success_url = reverse_lazy('profile')
     model = Basket
     context_object_name = 'basket'
     login_url = reverse_lazy('login')
+    form_class = OrderData
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -106,40 +110,25 @@ class ShopBasket(DataMixin, ListView):
         return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            user = self.request.user
-        else:
-            user = self.request.session.session_key
-        return Basket.objects.filter(user=user)
+        return LogicGood.show_shop_basket(self.request)
+
+    def form_valid(self, form):
+        LogicBasket.bay_goods_basket(self.request, form.cleaned_data)
+        return super().form_valid(form)
 
 
 def basket_qu(request, product_id, value):
-    basket = Basket.objects.filter(id=product_id).update(quantity=value)
-    basket.save()
+    LogicBasket.update_good_basket(product_id, value)
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
 def basket_add(request, product_id):
-    if request.user.is_authenticated:
-       user = request.user
-    else:
-       user = request.session.session_key
-
-    product = Goods.objects.get(id=product_id)
-    baskets = Basket.objects.filter(user=user, product=product)
-
-    if not baskets.exists():
-        Basket.objects.create(user=user, product=product, quantity=1)
-    else:
-        basket = baskets.first()
-        basket.quantity += 1
-        basket.save()
+    LogicBasket.add_basket(request, product_id)
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
 def basket_remove(request, basket_id):
-    basket = Basket.objects.get(id=basket_id)
-    basket.delete()
+    LogicBasket.delete_good_basket(basket_id)
     return HttpResponseRedirect(request.META["HTTP_REFERER"])
 
 
@@ -189,5 +178,3 @@ def logout_user(request):
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('Страница не найдена')
-
-

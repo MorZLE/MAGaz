@@ -27,10 +27,15 @@ class LoginUserForm(AuthenticationForm):
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
 
 
-class QuantityBasketForm(forms.ModelForm):
+class OrderData(forms.ModelForm):
     class Meta:
-        model = Basket
-        fields = ['quantity']
+        model = RecipientData
+        fields = ('recipient', 'address', 'number', 'email')
         widgets = {
-            'quantity': forms.NumberInput(attrs={'class': 'form-input'}),
+            'recipient': forms.TextInput(attrs={'class': 'basket-input'}),
+            'address': forms.TextInput(attrs={'class': 'basket-input'}),
+            'number': forms.TextInput(attrs={'class': 'basket-input'}),
+            'email': forms.TextInput(attrs={'class': 'basket-input'}),
         }
+
+
