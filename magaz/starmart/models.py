@@ -103,6 +103,7 @@ class Order(models.Model):
                                       verbose_name='Данные получателя')
     paid = models.BooleanField(default=False, verbose_name='Оплата')
     status = models.ForeignKey(StatusOrder, on_delete=models.CASCADE, verbose_name='Статус заказа', default=1)
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True, verbose_name='Пользователь')
 
     class Meta:
         verbose_name = "Заказ"

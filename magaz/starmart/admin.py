@@ -44,9 +44,9 @@ class StatusOrderAdmin(admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'RecipientData', 'paid', 'status')
-    list_display_links = ('id', 'RecipientData', 'paid', 'status')
-    search_fields = ('id', 'RecipientData', 'paid', 'status')
+    list_display = ('id', 'user', 'RecipientData', 'paid', 'status')
+    list_display_links = ('id', 'user', 'RecipientData', 'paid', 'status')
+    search_fields = ('id', 'user', 'RecipientData', 'paid', 'status')
 
 
 admin.site.register(Goods, GoodsAdmin)

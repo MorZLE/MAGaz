@@ -2,5 +2,16 @@
 
 {% block content %}
 <h1>{{title}}</h1>
-<hr>
+
+    {%if orders%}
+        {%for order in orders%}
+            <a>--></a>
+            {%for r in order%}
+                <a>{{r.product}}</a>
+                <a>|||{{r.quantity}}</a>
+                <a>|||{{r.price}}</a>
+            {%endfor%}
+            <a><--</a>
+        {%endfor%}
+    {%endif%}
 {% endblock %}

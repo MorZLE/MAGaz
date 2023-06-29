@@ -8,7 +8,9 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
 from .forms import RegisterUserForm, LoginUserForm, OrderData
+from .logic.Base_Logic import BaseLogic
 from .logic.logic_basket import LogicBasket
+from .logic.logic_profile import LogicProfile
 from .models import *
 from .utils import *
 from .logic.logic_good import LogicGood
@@ -73,6 +75,7 @@ class ShopAdmin(LoginRequiredMixin, DataMixin, ListView):
     template_name = 'starmart/admin.html'
     #  raise_exception = True
     login_url = reverse_lazy('login')
+
     #   login_url = '/admin'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -134,14 +137,17 @@ def basket_remove(request, basket_id):
 
 class ProfileUser(DataMixin, ListView):
     template_name = 'starmart/profile.html'
+    model = OrderItem
+   # context_object_name = 'orders'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Профиль")
+        orders = LogicProfile.get_user_orders(self.request)
+        c_def = self.get_user_context(title="Профиль", orders=orders)
         return dict(list(context.items()) + list(c_def.items()))
 
-    def get_queryset(self):
-        pass
+    #def get_queryset(self):
+     #   return LogicProfile.get_user_orders(self.request)
 
 
 class ShopLogin(DataMixin, LoginView):
