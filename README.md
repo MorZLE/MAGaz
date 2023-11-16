@@ -1,4 +1,4 @@
-# searchSQL
+# MAGaz
 
 интернет магазин
 
